@@ -30,7 +30,12 @@ module.exports = {
             .first();
 
         if (incident.ong_id != ong_id) {
-            return response.status(401)
+            return response.status(401)({
+                error: 'Operation not permitted.'
+            });
         }
+        await connection('incidents').where('id', id).delete();
+        return response.status(204).send();
     }
+
 };
